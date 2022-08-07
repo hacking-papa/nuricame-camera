@@ -2,8 +2,10 @@
 
 Make a contour by pictures, version with separeted camera.
 
+- [Prerequisites](#prerequisites)
 - [How to](#how-to)
   - [Setup](#setup)
+    - [Raspbian](#raspbian)
     - [Lipo SHIM](#lipo-shim)
     - [Camera](#camera)
     - [I2C Display](#i2c-display)
@@ -11,9 +13,20 @@ Make a contour by pictures, version with separeted camera.
 - [Misc](#misc)
   - [License](#license)
 
+## Prerequisites
+
+- Raspberry Pi Zero 2W
+  - Lipo SHIM
+  - 1.3" TFT LCD
+
 ## How to
 
 ### Setup
+
+#### Raspbian
+
+It is useful to enable SSH when creating SD card images.
+It is even better if VNC is also enabled after startup.
 
 #### Lipo SHIM
 
