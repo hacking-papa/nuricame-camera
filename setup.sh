@@ -87,6 +87,52 @@ case $ANS_BCM in
     sudo make install
     ;;
   *)
-    msg "${YELLOW}Allright, read README.md to install BCM Driver.${NOFORMAT}"
+    msg "${YELLOW}Okay, if you want to install it manually, refer to README.md.${NOFORMAT}"
+    ;;
+esac
+
+echo -n "Install wiringPi libraries? [y/N]: "
+read ANS_WIRINGPI
+case $ANS_WIRINGPI in
+  "" | [Yy]*)
+    msg "${GREEN}Sure, Start wiringPi libraries installation.${NOFORMAT}"
+    git clone https://github.com/WiringPi/WiringPi
+    cd WiringPi
+    ./build
+    gpio -v
+    ;;
+  *)
+    msg "${YELLOW}Okay, if you want to install it manually, refer to README.md.${NOFORMAT}"
+    ;;
+esac
+
+echo -n "Install Python libraries? [y/N]: "
+read ANS_LCD_PYTHON
+case $ANS_LCD_PYTHON in
+  "" | [Yy]*)
+    msg "${GREEN}Sure, Start Python libraries installation.${NOFORMAT}"
+    sudo apt-get update
+    sudo apt-get install -y ttf-wqy-zenhei
+    sudo apt-get install -y python3-pip
+    sudo pip3 install RPi.GPIO
+    sudo pip3 install spidev
+    ;;
+  *)
+    msg "${YELLOW}Okay, if you want to install it manually, refer to README.md.${NOFORMAT}"
+    ;;
+esac
+
+echo -n "Download examples? [y/N]: "
+read ANS_LCD_EXAMPLES
+case $ANS_LCD_EXAMPLES in
+  "" | [Yy]*)
+    msg "${GREEN}Sure, Start examples download.${NOFORMAT}"
+    sudo apt-get install -y p7zip-full
+    wget https://www.waveshare.com/w/upload/b/bd/1.3inch_LCD_HAT_code.7z
+    7z x 1.3inch_LCD_HAT_code.7z -r -o./1.3inch_LCD_HAT_code
+    sudo chmod 777 -R 1.3inch_LCD_HAT_code
+    ;;
+  *)
+    msg "${YELLOW}Okay, if you want to download it manually, refer to README.md.${NOFORMAT}"
     ;;
 esac

@@ -15,7 +15,7 @@ Make a contour by pictures, version with separeted camera.
 
 ## Prerequisites
 
-- Raspberry Pi Zero 2W
+- Raspberry Pi Zero 2W (Bullseye 32bit)
   - Lipo SHIM
   - 1.3" TFT LCD
 
