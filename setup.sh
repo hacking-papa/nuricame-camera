@@ -36,6 +36,10 @@ msg() {
   echo >&2 -e "${1-}"
 }
 
+ask() {
+  echo >&2 -ne "${CYAN}${1-}${NOFORMAT}"
+}
+
 die() {
   local msg=$1
   local code=${2-1} # default exit status 1
@@ -71,34 +75,43 @@ setup_colors
 msg "${RED}Read parameters:${NOFORMAT}"
 msg "- arguments: ${args[*]-}"
 
-msg "${BLUE}Setup 1.3 LCD HAT${NOFORMAT}"
+msg "${BLUE}---- Setup Lipo SHIM ----${NOFORMAT}"
 
-echo -n "Install BCM Driver? [y/N]: "
-read ANS_BCM
-case $ANS_BCM in
+ask "Install Lipo SHIM daemon? [y/N]: "
+read LIPO_ANS
+case $LIPO_ANS in
   "" | [Yy]*)
-    msg "${GREEN}Sure, Start BCM Driver installation.${NOFORMAT}"
-    wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.71.tar.gz
-    tar zxvf bcm2835-1.71.tar.gz
-    cd bcm2835-1.71
-    ./configure
-    sudo make
-    sudo make check
-    sudo make install
+    msg "${GREEN}Sure, Start Lipo SHIM daemon installation.${NOFORMAT}"
+    curl https://get.pimoroni.com/zerolipo | bash
     ;;
   *)
     msg "${YELLOW}Okay, if you want to install it manually, refer to README.md.${NOFORMAT}"
     ;;
 esac
 
-echo -n "Install wiringPi libraries? [y/N]: "
+msg "${BLUE}---- Setup 1.3 LCD HAT --${NOFORMAT}"
+
+ask "Install BCM Driver? [y/N]: "
+read ANS_BCM
+case $ANS_BCM in
+  "" | [Yy]*)
+    msg "${GREEN}Sure, Start BCM Driver installation.${NOFORMAT}"
+    wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.71.tar.gz
+    tar zxvf bcm2835-1.71.tar.gz
+    (cd bcm2835-1.71 && ./configure && sudo make && sudo make check && sudo make install)
+    ;;
+  *)
+    msg "${YELLOW}Okay, if you want to install it manually, refer to README.md.${NOFORMAT}"
+    ;;
+esac
+
+ask "Install wiringPi libraries? [y/N]: "
 read ANS_WIRINGPI
 case $ANS_WIRINGPI in
   "" | [Yy]*)
     msg "${GREEN}Sure, Start wiringPi libraries installation.${NOFORMAT}"
     git clone https://github.com/WiringPi/WiringPi
-    cd WiringPi
-    ./build
+    (cd WiringPi && ./build)
     gpio -v
     ;;
   *)
@@ -106,7 +119,7 @@ case $ANS_WIRINGPI in
     ;;
 esac
 
-echo -n "Install Python libraries? [y/N]: "
+ask "Install Python libraries? [y/N]: "
 read ANS_LCD_PYTHON
 case $ANS_LCD_PYTHON in
   "" | [Yy]*)
@@ -122,14 +135,14 @@ case $ANS_LCD_PYTHON in
     ;;
 esac
 
-echo -n "Download examples? [y/N]: "
+ask "Download examples? [y/N]: "
 read ANS_LCD_EXAMPLES
 case $ANS_LCD_EXAMPLES in
   "" | [Yy]*)
     msg "${GREEN}Sure, Start examples download.${NOFORMAT}"
     sudo apt-get install -y p7zip-full
     wget https://www.waveshare.com/w/upload/b/bd/1.3inch_LCD_HAT_code.7z
-    7z x 1.3inch_LCD_HAT_code.7z -r -o./1.3inch_LCD_HAT_code
+    7z x 1.3inch_LCD_HAT_code.7z -r -o ./1.3inch_LCD_HAT_code
     sudo chmod 777 -R 1.3inch_LCD_HAT_code
     ;;
   *)
