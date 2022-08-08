@@ -142,7 +142,7 @@ case $ANS_LCD_EXAMPLES in
     msg "${GREEN}Sure, Start examples download.${NOFORMAT}"
     sudo apt-get install -y p7zip-full
     wget https://www.waveshare.com/w/upload/b/bd/1.3inch_LCD_HAT_code.7z
-    7z x 1.3inch_LCD_HAT_code.7z -r -o ./1.3inch_LCD_HAT_code
+    7z x 1.3inch_LCD_HAT_code.7z -r -o./1.3inch_LCD_HAT_code
     sudo chmod 777 -R 1.3inch_LCD_HAT_code
     ;;
   *)

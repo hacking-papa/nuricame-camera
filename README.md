@@ -30,7 +30,9 @@ It is even better if VNC is also enabled after startup.
 
 #### Lipo SHIM
 
-(T. B. D.)
+Run `setup.sh` to install the daemon automatically.
+
+If you want to do it manually, run `./zerolipo.sh`.
 
 #### Camera
 
@@ -38,7 +40,7 @@ It is even better if VNC is also enabled after startup.
 
 #### I2C Display
 
-(T. B. D.)
+Run `setup.sh` to install all dependencies automatically.
 
 ## Enclosure
 
