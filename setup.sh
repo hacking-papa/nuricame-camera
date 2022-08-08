@@ -15,8 +15,6 @@ Available options:
 
 -h, --help      Print this help and exit
 -v, --verbose   Print script debug info
--f, --flag      Some flag description
--p, --param     Some param description
 EOF
   exit
 }
@@ -55,11 +53,6 @@ parse_params() {
     -h | --help) usage ;;
     -v | --verbose) set -x ;;
     --no-color) NO_COLOR=1 ;;
-    -f | --flag) flag=1 ;; # example flag
-    -p | --param) # example named parameter
-      param="${2-}"
-      shift
-      ;;
     -?*) die "Unknown option: $1" ;;
     *) break ;;
     esac
@@ -67,11 +60,6 @@ parse_params() {
   done
 
   args=("$@")
-
-  # check required params and arguments
-  [[ -z "${param-}" ]] && die "Missing required parameter: param"
-  [[ ${#args[@]} -eq 0 ]] && die "Missing script arguments"
-
   return 0
 }
 
@@ -81,6 +69,24 @@ setup_colors
 # script logic here
 
 msg "${RED}Read parameters:${NOFORMAT}"
-msg "- flag: ${flag}"
-msg "- param: ${param}"
 msg "- arguments: ${args[*]-}"
+
+msg "${BLUE}Setup 1.3 LCD HAT${NOFORMAT}"
+
+echo -n "Install BCM Driver? [y/N]: "
+read ANS_BCM
+case $ANS_BCM in
+  "" | [Yy]*)
+    msg "${GREEN}Sure, Start BCM Driver installation.${NOFORMAT}"
+    wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.71.tar.gz
+    tar zxvf bcm2835-1.71.tar.gz
+    cd bcm2835-1.71
+    ./configure
+    sudo make
+    sudo make check
+    sudo make install
+    ;;
+  *)
+    msg "${YELLOW}Allright, read README.md to install BCM Driver.${NOFORMAT}"
+    ;;
+esac
