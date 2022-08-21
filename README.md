@@ -4,13 +4,14 @@ Make a contour by pictures, version with separeted camera.
 
 - [Prerequisites](#prerequisites)
 - [How to](#how-to)
-  - [Setup](#setup)
+  - [Setup Camera](#setup-camera)
     - [Raspbian](#raspbian)
       - [VNC](#vnc)
     - [Lipo SHIM](#lipo-shim)
     - [Camera](#camera)
     - [I2C Display](#i2c-display)
-- [Enclosure](#enclosure)
+    - [Enclosure](#enclosure)
+  - [Setup Server](#setup-server)
 - [Misc](#misc)
   - [License](#license)
 
@@ -22,7 +23,7 @@ Make a contour by pictures, version with separeted camera.
 
 ## How to
 
-### Setup
+### Setup Camera
 
 #### Raspbian
 
@@ -52,7 +53,11 @@ See [1.3inch LCD HAT - Waveshare Wiki](https://www.waveshare.com/wiki/1.3inch_LC
 
 Run `setup.sh` to install all dependencies automatically.
 
-## Enclosure
+#### Enclosure
+
+(T. B. D.)
+
+### Setup Server
 
 (T. B. D.)
 
