@@ -12,7 +12,7 @@ def read_root():
 
 
 @app.post("/")
-def post_item(file: UploadFile):
+async def post_item(file: UploadFile):
     with open("input.jpg", "wb+") as buffer:
         shutil.copyfileobj(file.file, buffer)
     convert("input.jpg")

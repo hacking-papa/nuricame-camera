@@ -3,7 +3,6 @@
 """ Holistically-Nested Edge Detection """
 
 import cv2
-import numpy as np
 
 cv2.setUseOptimized(True)
 
@@ -35,8 +34,8 @@ class CropLayer:
         return [inputs[0][:, :, self.start_y : self.end_y, self.start_x : self.end_x]]
 
 
-def convert(image_path: str = "input.jpg"):
-    img = cv2.imread(image_path)
+def convert(input_path: str = "input.jpg", output_path: str = "output.jpg"):
+    img = cv2.imread(input_path)
 
     cv2.dnn_registerLayer("Crop", CropLayer)
     net = cv2.dnn.readNetFromCaffe("hed.prototxt", "hed.caffemodel")
@@ -57,5 +56,5 @@ def convert(image_path: str = "input.jpg"):
     output = cv2.bitwise_not(hed)
     cv2.dnn_unregisterLayer("Crop")
 
-    cv2.imwrite("output.jpg", output)
+    cv2.imwrite(output_path, output)
     return output
