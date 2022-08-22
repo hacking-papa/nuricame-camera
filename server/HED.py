@@ -1,72 +1,61 @@
 #!/usr/bin/env python3
-# -*-coding:utf-8-*-
 
-import argparse
+""" Holistically-Nested Edge Detection """
 
-import cv2 as cv
+import cv2
 import numpy as np
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--input", help="Path to input image.", required=True)
-parser.add_argument(
-    "--width", help="Resize input image to a specific width.", default=384, type=int
-)
-parser.add_argument(
-    "--height", help="Resize input image to a specific height.", default=384, type=int
-)
-parser.add_argument("--output", help="Path to output image.", default="output.jpg")
-args = parser.parse_args()
+cv2.setUseOptimized(True)
+
+TARGET_WIDTH: int = 384
+TARGET_HEIGHT: int = 384
+PROCESSING_RESOLUTION: int = 512
 
 
-class CropLayer(object):
+class CropLayer:
     def __init__(self, params, blobs):
-        self.x_start = 0
-        self.x_end = 0
-        self.y_start = 0
-        self.y_end = 0
+        self.start_x = 0
+        self.end_x = 0
+        self.start_y = 0
+        self.end_y = 0
 
     def getMemoryShapes(self, inputs):
         input_shape, target_shape = inputs[0], inputs[1]
         batch_size, num_channels = input_shape[0], input_shape[1]
         height, width = target_shape[2], target_shape[3]
 
-        self.y_start = int((input_shape[2] - target_shape[2]) / 2)
-        self.x_start = int((input_shape[3] - target_shape[3]) / 2)
-        self.y_end = self.y_start + height
-        self.x_end = self.x_start + width
+        self.start_x = int((input_shape[3] - target_shape[3]) / 2)
+        self.start_y = int((input_shape[2] - target_shape[2]) / 2)
+        self.end_x = self.start_x + width
+        self.end_y = self.start_y + height
 
         return [[batch_size, num_channels, height, width]]
 
     def forward(self, inputs):
-        return [inputs[0][:, :, self.y_start : self.y_end, self.x_start : self.x_end]]
+        return [inputs[0][:, :, self.start_y : self.end_y, self.start_x : self.end_x]]
 
 
-net = cv.dnn.readNetFromCaffe("deploy.prototxt", "hed_pretrained_bsds.caffemodel")
-cv.dnn_registerLayer("Crop", CropLayer)
+def convert(image_path: str = "input.jpg"):
+    img = cv2.imread(image_path)
 
-image = cv.imread(args.input)
-image = cv.resize(image, (args.width, args.height))
-input_blob = cv.dnn.blobFromImage(
-    image,
-    scalefactor=1.0,
-    size=(args.width, args.height),
-    mean=(104.00698793, 116.66876762, 122.67891434),
-    swapRB=False,
-    crop=False,
-)
-net.setInput(input_blob)
-output = net.forward()
+    cv2.dnn_registerLayer("Crop", CropLayer)
+    net = cv2.dnn.readNetFromCaffe("hed.prototxt", "hed.caffemodel")
+    blob = cv2.dnn.blobFromImage(
+        img,
+        scalefactor=1.0,
+        size=(PROCESSING_RESOLUTION, PROCESSING_RESOLUTION),
+        mean=(104.00698793, 116.66876762, 122.67891434),
+        swapRB=False,
+        crop=True,
+    )
+    net.setInput(blob)
+    hed = net.forward()
+    hed = cv2.resize(
+        hed[0, 0], (TARGET_WIDTH, TARGET_HEIGHT), interpolation=cv2.INTER_LINEAR_EXACT
+    )
+    hed = (255 * hed).astype("uint8")
+    output = cv2.bitwise_not(hed)
+    cv2.dnn_unregisterLayer("Crop")
 
-output = output[0, 0]
-output = cv.resize(output, (image.shape[1], image.shape[0]))
-
-output = 255 * output
-output = output.astype(np.uint8)
-output = cv.bitwise_not(output)
-
-print(f"type(output): {type(output)}")
-print(f"np.max(output): {np.max(output)}")
-print(f"np.min(output): {np.min(output)}")
-print(f"output.shape: {output.shape}")
-
-cv.imwrite(args.output, output)
+    cv2.imwrite("output.jpg", output)
+    return output
