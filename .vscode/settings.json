@@ -1,9 +1,20 @@
 {
     "cSpell.words": [
-        "Lipo",
-        "nuricame",
-        "pimoroni",
-        "Waveshare",
-        "zerolipo"
+      "astype",
+      "Caffe",
+      "caffemodel",
+      "fastapi",
+      "fastapi",
+      "httpie",
+      "imread",
+      "imwrite",
+      "Lipo",
+      "nuricame",
+      "pimoroni",
+      "prototxt",
+      "scalefactor",
+      "uvicorn",
+      "Waveshare",
+      "zerolipo"
     ]
 }

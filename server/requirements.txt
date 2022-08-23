@@ -1,0 +1,6 @@
+black
+fastapi[all]
+httpie
+numpy
+opencv-python
+opencv-contrib-python
