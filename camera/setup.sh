@@ -163,11 +163,10 @@ case $ANS_PAPERANG in
     sudo apt-get install -y libatlas-base-dev
     sudo apt-get install -y python3-llvmlite
     sudo apt-get install -y python3-numba
-    sudo apt-get install -y python3-llvmlite
     sudo apt-get install -y llvm-dev
     sudo apt-get install -y python3-pip
     sudo pip3 install cython
-    sudo pip3 install numpy
+    sudo pip3 install --upgrade numpy
     sudo pip3 install pybluez
     sudo pip3 install scikit-image
     sudo pip3 install scipy
