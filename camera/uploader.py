@@ -1,6 +1,6 @@
+from io import BytesIO
 import requests
 from PIL import Image
-from io import StringIO
 
 
 def main(path: str):
@@ -8,8 +8,9 @@ def main(path: str):
     file = {"file": open(path, mode="rb")}
     res = requests.post(url, files=file)
     print(res)
-    img = Image.open(StringIO(res.content))
-    img.save("output.jpg")
+    if res.status_code is 200:
+        img = Image.open(BytesIO(res.content))
+        img.save("output.jpg")
 
 
 if __name__ == "__main__":
