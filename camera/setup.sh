@@ -135,7 +135,7 @@ case $ANS_LCD_PYTHON in
     ;;
 esac
 
-ask "Download examples? [y/N]: "
+ask "Download LCD examples? [y/N]: "
 read ANS_LCD_EXAMPLES
 case $ANS_LCD_EXAMPLES in
   "" | [Yy]*)

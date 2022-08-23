@@ -359,3 +359,5 @@ $RECYCLE.BIN/
 ### Project Specific ###
 bcm2835*
 bcm2835*/
+*.7z
+*.gz
