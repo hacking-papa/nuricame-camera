@@ -77,7 +77,7 @@ msg "- arguments: ${args[*]-}"
 
 msg "${BLUE}---- Setup Lipo SHIM ----${NOFORMAT}"
 
-ask "Install Lipo SHIM daemon? [y/N]: "
+ask "Install Lipo SHIM daemon? [Y/n]: "
 read LIPO_ANS
 case $LIPO_ANS in
   "" | [Yy]*)
@@ -91,7 +91,7 @@ esac
 
 msg "${BLUE}---- Setup 1.3 LCD HAT --${NOFORMAT}"
 
-ask "Install BCM Driver? [y/N]: "
+ask "Install BCM Driver? [Y/n]: "
 read ANS_BCM
 case $ANS_BCM in
   "" | [Yy]*)
@@ -105,7 +105,7 @@ case $ANS_BCM in
     ;;
 esac
 
-ask "Install wiringPi libraries? [y/N]: "
+ask "Install WiringPi libraries? [Y/n]: "
 read ANS_WIRINGPI
 case $ANS_WIRINGPI in
   "" | [Yy]*)
@@ -119,11 +119,11 @@ case $ANS_WIRINGPI in
     ;;
 esac
 
-ask "Install Python libraries? [y/N]: "
+ask "Install dependencies related to LCD? [Y/n]: "
 read ANS_LCD_PYTHON
 case $ANS_LCD_PYTHON in
   "" | [Yy]*)
-    msg "${GREEN}Sure, Start Python libraries installation.${NOFORMAT}"
+    msg "${GREEN}Sure, Start dependencies related to LCD installation.${NOFORMAT}"
     sudo apt-get update
     sudo apt-get install -y ttf-wqy-zenhei
     sudo apt-get install -y python3-pip
@@ -135,11 +135,11 @@ case $ANS_LCD_PYTHON in
     ;;
 esac
 
-ask "Download LCD examples? [y/N]: "
+ask "Download LCD examples? [Y/n]: "
 read ANS_LCD_EXAMPLES
 case $ANS_LCD_EXAMPLES in
   "" | [Yy]*)
-    msg "${GREEN}Sure, Start examples download.${NOFORMAT}"
+    msg "${GREEN}Sure, Start LCD examples download.${NOFORMAT}"
     sudo apt-get install -y p7zip-full
     wget https://www.waveshare.com/w/upload/b/bd/1.3inch_LCD_HAT_code.7z
     7z x 1.3inch_LCD_HAT_code.7z -r -o./1.3inch_LCD_HAT_code
@@ -149,3 +149,62 @@ case $ANS_LCD_EXAMPLES in
     msg "${YELLOW}Okay, if you want to download it manually, refer to README.md.${NOFORMAT}"
     ;;
 esac
+
+msg "${BLUE}---- Setup Paperang ----${NOFORMAT}"
+
+ask "Install dependencies related to Paperang? [Y/n]: "
+read ANS_PAPERANG
+case $ANS_PAPERANG in
+  "" | [Yy]*)
+    msg "${GREEN}Sure, Start dependencies related to Paperang installation.${NOFORMAT}"
+    sudo apt-get update
+    sudo apt-get install -y libbluetooth-dev
+    sudo apt-get install -y libhidapi-dev
+    sudo apt-get install -y libatlas-base-dev
+    sudo apt-get install -y python3-llvmlite
+    sudo apt-get install -y python3-numba
+    sudo apt-get install -y python3-llvmlite
+    sudo apt-get install -y llvm-dev
+    sudo apt-get install -y python3-pip
+    sudo pip3 install cython
+    sudo pip3 install numpy
+    sudo pip3 install pybluez
+    sudo pip3 install scikit-image
+    sudo pip3 install scipy
+    sudo pip3 install numba
+    sudo pip3 install pilkit
+    sudo pip3 install watchgod
+    ;;
+  *)
+    msg "${YELLOW}Okay, if you want to install it manually, refer to README.md.${NOFORMAT}"
+    ;;
+esac
+
+ask "Clone python-paperang? [Y/n]: "
+read ANS_PYTHON_PAPERANG
+case $ANS_PYTHON_PAPERANG in
+  "" | [Yy]*)
+    msg "${GREEN}Sure, clone python-paperang.${NOFORMAT}"
+    git clone https://github.com/tinyprinter/python-paperang.git
+    ;;
+  *)
+    msg "${YELLOW}Okay, if you want to clone it manually, refer to README.md.${NOFORMAT}"
+    ;;
+esac
+
+msg "${BLUE}---- Setup OpenCV ----${NOFORMAT}"
+
+ask "Install OpenCV? [Y/n]: "
+read ANS_LCD_PYTHON
+case $ANS_LCD_PYTHON in
+  "" | [Yy]*)
+    msg "${GREEN}Sure, Start OpenCV installation.${NOFORMAT}"
+    sudo apt-get update
+    sudo apt-get install -y python3-opencv
+    ;;
+  *)
+    msg "${YELLOW}Okay, if you want to install it manually, refer to README.md.${NOFORMAT}"
+    ;;
+esac
+
+msg "${BLUE}All done.${NOFORMAT}"
