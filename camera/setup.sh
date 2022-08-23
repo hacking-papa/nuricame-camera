@@ -83,6 +83,7 @@ case $LIPO_ANS in
   "" | [Yy]*)
     msg "${GREEN}Sure, Start Lipo SHIM daemon installation.${NOFORMAT}"
     curl https://get.pimoroni.com/zerolipo | bash
+    sudo systemctl disable cleanshutd && sudo systemctl stop cleanshutd  # disable clean shutdown
     ;;
   *)
     msg "${YELLOW}Okay, if you want to install it manually, refer to README.md.${NOFORMAT}"
