@@ -357,7 +357,5 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/linux,osx,windows,python,pycharm+all,visualstudiocode,opencv
 
 ### Project Specific ###
-bcm2835*
-bcm2835*/
 *.7z
 *.gz
