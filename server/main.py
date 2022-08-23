@@ -1,6 +1,6 @@
 import shutil
 from fastapi import FastAPI, UploadFile
-from fastapi.response import FileResponse
+from fastapi.responses import FileResponse
 
 from HED import convert
 
