@@ -38,7 +38,7 @@ To see API document, access to `http://0.0.0.0:8000/docs` or `http://0.0.0.0:800
 
 #### Using [httpie](https://httpie.io)
 
-`http --form POST http://0.0.0.0:8000/ file@samples/Airplane.jpg`
+`http --form POST http://0.0.0.0:8000/ file@samples/Airplane.jpg -o output.jpg`
 
 ## Misc
 
