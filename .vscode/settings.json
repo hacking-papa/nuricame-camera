@@ -1,21 +1,27 @@
 {
     "cSpell.words": [
+      "asarray",
       "astype",
       "Caffe",
       "caffemodel",
+      "dtype",
       "fastapi",
+      "GPIO",
       "httpie",
       "imread",
       "imwrite",
       "Lipo",
       "nuricame",
+      "OLED",
       "Paperang",
       "picamera",
       "pimoroni",
       "prototxt",
       "scalefactor",
+      "setwarnings",
       "uvicorn",
       "Waveshare",
+      "writebytes",
       "zerolipo"
     ]
 }

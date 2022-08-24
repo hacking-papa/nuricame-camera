@@ -2,7 +2,7 @@ import picamera
 
 
 class Camera:
-    def snap(filename: str = "input.jpg"):
+    def snap(self, filename: str = "input.jpg"):
         camera = picamera.PiCamera()
         camera.capture(filename, resize=(512, 512))
 

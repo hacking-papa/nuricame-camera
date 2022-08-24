@@ -5,7 +5,7 @@ from config import config
 
 
 class Uploader:
-    def upload(upload_file: str):
+    def upload(self, upload_file: str):
         url = config.get("DEFAULT", "server_url")
         file = {"file": open(upload_file, mode="rb")}
         response = requests.post(url, files=file)
