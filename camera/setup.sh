@@ -90,6 +90,21 @@ case $LIPO_ANS in
     ;;
 esac
 
+msg "${BLUE}---- Setup Camera ----${NOFORMAT}"
+
+ask "Install dependencies related to Camera? [Y/n]: "
+read ANS_PAPERANG
+case $ANS_PAPERANG in
+  "" | [Yy]*)
+    msg "${GREEN}Sure, Start dependencies related to Camera installation.${NOFORMAT}"
+    sudo apt-get update
+    sudo apt-get install -y python3-pycamera
+    ;;
+  *)
+    msg "${YELLOW}Okay, if you want to install it manually, refer to README.md.${NOFORMAT}"
+    ;;
+esac
+
 msg "${BLUE}---- Setup 1.3 LCD HAT --${NOFORMAT}"
 
 ask "Install BCM Driver? [Y/n]: "

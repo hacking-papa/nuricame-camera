@@ -1,10 +1,11 @@
 from io import BytesIO
 import requests
 from PIL import Image
+from config import config
 
 
 def main(path: str):
-    url = "http://192.168.100.9:8000/"
+    url = config.get("DEFAULT", "server_url")
     file = {"file": open(path, mode="rb")}
     res = requests.post(url, files=file)
     print(res)
