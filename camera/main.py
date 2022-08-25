@@ -1,4 +1,5 @@
 import socket
+from time import time
 import spidev as SPI
 import ST7789
 import RPi.GPIO as GPIO
@@ -78,6 +79,9 @@ def main():
         if not GPIO.input(KEY_PRESS_PIN):
             Camera().snap()
             logger.info("Snap")
+            home_draw.text((0, 60), "Snap!", font=font, fill=(255, 255, 255))
+            display.ShowImage(home_img, 0, 0)
+            time.sleep(3)
             input_img = Image.open("input.jpg").resize((display_width, display_height))
             display.ShowImage(input_img, 0, 0)
 
