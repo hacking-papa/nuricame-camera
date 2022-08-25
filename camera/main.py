@@ -61,16 +61,19 @@ def main():
 
     image = Image.new("RGB", (display_width, display_height))
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype("fonts/mononoki.ttf", 16)
+    font = ImageFont.truetype("fonts/mononoki.ttf", 24)
     draw.rectangle((0, 0, display_width, display_height), fill=(0, 0, 0))
     draw.text((0, 0), get_hostname(), font=font, fill=(255, 255, 255))
-    draw.text((0, 20), get_ip_address(), font=font, fill=(255, 255, 255))
+    draw.text((0, 30), get_ip_address(), font=font, fill=(255, 255, 255))
     display.ShowImage(image, 0, 0)
 
     # TODO: implement key event handler
     while True:
         if GPIO.input(KEY_PRESS_PIN):
             Camera().snap()
+            print("snap")
+            draw.text((0, 60), "Snap!", font=font, fill=(255, 255, 255))
+            display.ShowImage(image, 0, 0)
             break
     # TODO: implement image capture
     # TODO: implement image display
