@@ -49,7 +49,7 @@ def main():
     image = Image.new("RGB", (display_width, display_height))
     draw = ImageDraw.Draw(image)
     draw.rectangle((0, 0, display_width, display_height), fill=(0, 0, 0))
-    draw.ShowImage(image, 0, 0)
+    display.ShowImage(image, 0, 0)
 
     # TODO: implement key event handler
     # TODO: implement image capture
