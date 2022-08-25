@@ -6,6 +6,7 @@
       "caffemodel",
       "dtype",
       "fastapi",
+      "gethostname",
       "GPIO",
       "httpie",
       "imread",

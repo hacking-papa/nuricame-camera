@@ -1,3 +1,4 @@
+import socket
 import spidev as SPI
 import ST7789
 import RPi.GPIO as GPIO
@@ -31,6 +32,16 @@ display_width = 240
 display_height = 240
 
 
+def get_hostname():
+    return socket.gethostname()
+
+
+def get_ip_address():
+    connect_interface = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    connect_interface.connect(("8.8.8.8", 80))
+    return connect_interface.getsockname()[0]
+
+
 def main():
     display = ST7789.ST7789(SPI.SpiDev(bus, device), RST, DC, BL)
     display.Init()
@@ -50,7 +61,8 @@ def main():
     draw = ImageDraw.Draw(image)
     font = ImageFont.truetype("fonts/mononoki.ttf", 16)
     draw.rectangle((0, 0, display_width, display_height), fill=(0, 0, 0))
-    draw.text((0, 0), "Hello World!", font=font, fill=(255, 255, 255))
+    draw.text((0, 0), get_hostname(), font=font, fill=(255, 255, 255))
+    draw.text((0, 20), get_ip_address(), font=font, fill=(255, 255, 255))
     display.ShowImage(image, 0, 0)
 
     # TODO: implement key event handler
