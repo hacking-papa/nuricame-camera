@@ -1,5 +1,5 @@
 import spidev as SPI
-from camera.ST7789 import ST7789
+import ST7789
 import RPi.GPIO as GPIO
 from PIL import Image, ImageDraw, ImageFont
 
