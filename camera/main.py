@@ -4,6 +4,8 @@ import ST7789
 import RPi.GPIO as GPIO
 from PIL import Image, ImageDraw, ImageFont
 
+from camera import Camera
+
 
 # GPIO define
 
@@ -66,6 +68,10 @@ def main():
     display.ShowImage(image, 0, 0)
 
     # TODO: implement key event handler
+    while True:
+        if GPIO.input(KEY_PRESS_PIN):
+            Camera().snap()
+            break
     # TODO: implement image capture
     # TODO: implement image display
     # TODO: implement upload image
