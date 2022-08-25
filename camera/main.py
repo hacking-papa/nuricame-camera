@@ -53,6 +53,7 @@ def main():
     display.Init()
     display.clear()
 
+    # GPIO Initialize
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(KEY_UP_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Input with pull-up
     GPIO.setup(KEY_DOWN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -63,22 +64,22 @@ def main():
     GPIO.setup(KEY2_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(KEY3_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-    image = Image.new("RGB", (display_width, display_height))
-    image.open("home.png")
-    draw = ImageDraw.Draw(image)
     font = ImageFont.truetype("fonts/mononoki.ttf", 24)
-    draw.text((0, 0), get_hostname(), font=font, fill=(255, 255, 255))
-    draw.text((0, 30), get_ip_address(), font=font, fill=(255, 255, 255))
-    display.ShowImage(image, 0, 0)
+    # Prepare Home Image
+    home_img = Image.open("home_240x240.png")
+    home_draw = ImageDraw.Draw(home_img)
+
+    home_draw.text((0, 0), get_hostname(), font=font, fill=(255, 255, 255))
+    home_draw.text((0, 30), get_ip_address(), font=font, fill=(255, 255, 255))
+    display.ShowImage(home_img, 0, 0)
 
     # TODO: implement key event handler
     while True:
         if GPIO.input(KEY_PRESS_PIN):
             Camera().snap()
             logger.info("Snap")
-            draw.text((0, 60), "Snap!", font=font, fill=(255, 255, 255))
-            image.open("input.jpg")
-            display.ShowImage(image, 0, 0)
+            input_img = Image.open("input.jpg").resize((display_width, display_height))
+            display.ShowImage(input_img, 0, 0)
             break
     # TODO: implement image capture
     # TODO: implement image display
