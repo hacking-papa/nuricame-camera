@@ -48,7 +48,9 @@ def main():
 
     image = Image.new("RGB", (display_width, display_height))
     draw = ImageDraw.Draw(image)
+    font = ImageFont.truetype("fonts/mononoki.ttf", 16)
     draw.rectangle((0, 0, display_width, display_height), fill=(0, 0, 0))
+    draw.text((0, 0), "Hello World!", font=font, fill=(255, 255, 255))
     display.ShowImage(image, 0, 0)
 
     # TODO: implement key event handler
