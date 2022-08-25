@@ -2,14 +2,14 @@
 
 import socket
 import sys
+
+import RPi.GPIO as GPIO
 import spidev as SPI
 import ST7789
-import RPi.GPIO as GPIO
-from PIL import Image, ImageDraw, ImageFont
 from loguru import logger
-
+from PIL import Image, ImageDraw, ImageFont
+from uploader import Uploader
 from camera import Camera
-
 
 # GPIO define
 
@@ -86,6 +86,8 @@ def main():
                     (display_width, display_height)
                 )
                 display.ShowImage(input_img, 0, 0)
+                if(Uploader().upload("input.jpg")):
+                    logger.info("Successful uploading")
         if not GPIO.input(KEY3_PIN):
             logger.info("KEY3_PIN")
             sys.exit()
