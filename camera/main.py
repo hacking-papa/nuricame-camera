@@ -3,6 +3,7 @@ import spidev as SPI
 import ST7789
 import RPi.GPIO as GPIO
 from PIL import Image, ImageDraw, ImageFont
+from loguru import logger
 
 from camera import Camera
 
@@ -45,6 +46,9 @@ def get_ip_address():
 
 
 def main():
+    logger.add("{time}.log", rotation="1 day")
+    logger.info("Start")
+
     display = ST7789.ST7789(SPI.SpiDev(bus, device), RST, DC, BL)
     display.Init()
     display.clear()
@@ -60,9 +64,9 @@ def main():
     GPIO.setup(KEY3_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     image = Image.new("RGB", (display_width, display_height))
+    image.open("home.png")
     draw = ImageDraw.Draw(image)
     font = ImageFont.truetype("fonts/mononoki.ttf", 24)
-    draw.rectangle((0, 0, display_width, display_height), fill=(0, 0, 0))
     draw.text((0, 0), get_hostname(), font=font, fill=(255, 255, 255))
     draw.text((0, 30), get_ip_address(), font=font, fill=(255, 255, 255))
     display.ShowImage(image, 0, 0)
@@ -71,8 +75,9 @@ def main():
     while True:
         if GPIO.input(KEY_PRESS_PIN):
             Camera().snap()
-            print("snap")
+            logger.info("Snap")
             draw.text((0, 60), "Snap!", font=font, fill=(255, 255, 255))
+            image.open("input.jpg")
             display.ShowImage(image, 0, 0)
             break
     # TODO: implement image capture

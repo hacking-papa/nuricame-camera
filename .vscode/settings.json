@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
       "asarray",
+      "asctime",
       "astype",
       "Caffe",
       "caffemodel",
@@ -11,6 +12,7 @@
       "httpie",
       "imread",
       "imwrite",
+      "levelname",
       "Lipo",
       "mononoki",
       "nuricame",
