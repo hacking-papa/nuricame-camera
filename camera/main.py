@@ -1,5 +1,7 @@
+#!/usr/bin/env python3
+
 import socket
-from time import time
+import sys
 import spidev as SPI
 import ST7789
 import RPi.GPIO as GPIO
@@ -63,7 +65,7 @@ def main():
     GPIO.setup(KEY_PRESS_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     # GPIO.setup(KEY1_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     # GPIO.setup(KEY2_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    # GPIO.setup(KEY3_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(KEY3_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     font = ImageFont.truetype("fonts/mononoki.ttf", 24)
     # Prepare Home Image
@@ -77,13 +79,16 @@ def main():
     # TODO: implement key event handler
     while True:
         if not GPIO.input(KEY_PRESS_PIN):
-            Camera().snap()
-            logger.info("Snap")
-            home_draw.text((0, 60), "Snap!", font=font, fill=(255, 255, 255))
-            display.ShowImage(home_img, 0, 0)
-            time.sleep(3)
-            input_img = Image.open("input.jpg").resize((display_width, display_height))
-            display.ShowImage(input_img, 0, 0)
+            if Camera().shoot():
+                logger.info("Successful shooting")
+                display.clear()
+                input_img = Image.open("input.jpg").resize(
+                    (display_width, display_height)
+                )
+                display.ShowImage(input_img, 0, 0)
+        if not GPIO.input(KEY3_PIN):
+            logger.info("KEY3_PIN")
+            sys.exit()
 
     # TODO: implement image capture
     # TODO: implement image display

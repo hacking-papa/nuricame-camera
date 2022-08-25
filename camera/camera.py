@@ -2,9 +2,11 @@ import picamera
 
 
 class Camera:
-    def snap(self, filename: str = "input.jpg"):
-        camera = picamera.PiCamera()
-        camera.capture(filename, resize=(512, 512))
+    def shoot(self, filename: str = "input.jpg"):
+        with picamera.PiCamera() as camera:
+            camera.resolution = (512, 512)
+            camera.capture(filename)
+            return True
 
 
 if __name__ == "__main__":
