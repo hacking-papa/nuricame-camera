@@ -10,6 +10,7 @@ from PIL import Image, ImageDraw, ImageFont
 from uploader import Uploader
 
 from camera import Camera
+from paperang_printer import Paperang_Printer
 
 # GPIO define
 
@@ -88,7 +89,7 @@ def main():
                 display.ShowImage(input_img, 0, 0)
                 if Uploader().upload("input.jpg"):
                     logger.info("Successful uploading")
-                # TODO: implement print image
+                Paperang_Printer().print_image_file("output.jpg")
 
 
 if __name__ == "__main__":

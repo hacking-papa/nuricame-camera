@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import config
+from config import config
 import paperang_hardware as hardware
 import paperang_image_data as image_data
 import skimage as ski
@@ -18,7 +18,7 @@ class Paperang_Printer:
         if self.printer_hardware.connected:
             self.printer_hardware.sendSelfTestToBt()
 
-    def print_image_file(self, path):
+    def print_image_file(self, path: str):
         if self.printer_hardware.connected:
             self.printer_hardware.sendImageToBt(
                 image_data.binimage2bitstream(
@@ -26,7 +26,7 @@ class Paperang_Printer:
                 )
             )
 
-    def print_dithered_image(self, path):
+    def print_dithered_image(self, path: str):
         if self.printer_hardware.connected:
             self.printer_hardware.sendImageToBt(image_data.im2binimage2(path))
 
