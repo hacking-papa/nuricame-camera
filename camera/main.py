@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import socket
-import sys
 
 import RPi.GPIO as GPIO
 import spidev as SPI
@@ -9,6 +8,7 @@ import ST7789
 from loguru import logger
 from PIL import Image, ImageDraw, ImageFont
 from uploader import Uploader
+
 from camera import Camera
 
 # GPIO define
@@ -49,7 +49,7 @@ def get_ip_address():
 
 
 def main():
-    logger.add("{time}.log", rotation="1 day")
+    logger.add("logs/{time}.log", rotation="1 day")
     logger.info("Start")
 
     display = ST7789.ST7789(SPI.SpiDev(bus, device), RST, DC, BL)
@@ -65,7 +65,7 @@ def main():
     GPIO.setup(KEY_PRESS_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     # GPIO.setup(KEY1_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     # GPIO.setup(KEY2_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(KEY3_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    # GPIO.setup(KEY3_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     font = ImageFont.truetype("fonts/mononoki.ttf", 24)
     # Prepare Home Image
@@ -76,8 +76,8 @@ def main():
     home_draw.text((0, 30), get_ip_address(), font=font, fill=(255, 255, 255))
     display.ShowImage(home_img, 0, 0)
 
-    # TODO: implement key event handler
     while True:
+        """Main Routine"""
         if not GPIO.input(KEY_PRESS_PIN):
             if Camera().shoot():
                 logger.info("Successful shooting")
@@ -86,16 +86,9 @@ def main():
                     (display_width, display_height)
                 )
                 display.ShowImage(input_img, 0, 0)
-                if(Uploader().upload("input.jpg")):
+                if Uploader().upload("input.jpg"):
                     logger.info("Successful uploading")
-        if not GPIO.input(KEY3_PIN):
-            logger.info("KEY3_PIN")
-            sys.exit()
-
-    # TODO: implement image capture
-    # TODO: implement image display
-    # TODO: implement upload image
-    # TODO: implement print image
+                # TODO: implement print image
 
 
 if __name__ == "__main__":

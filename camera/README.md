@@ -12,6 +12,8 @@ Make a contour by pictures, version with separated camera.
     - [I2C Display](#i2c-display)
     - [Enclosure](#enclosure)
   - [Use](#use)
+    - [Check](#check)
+      - [SCP](#scp)
 - [Misc](#misc)
   - [License](#license)
 
@@ -60,6 +62,12 @@ Run `setup.sh` to install all dependencies automatically.
 ### Use
 
 (T. B. D.)
+
+#### Check
+
+##### SCP
+
+To download images from Raspberry Pi, `scp pi@nuricame-02.local:/home/pi/Workspace/nuricame-camera/camera/output.jpg ~/Downloads`
 
 ## Misc
 

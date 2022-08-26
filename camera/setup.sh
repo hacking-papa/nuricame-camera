@@ -200,7 +200,7 @@ read ANS_PYTHON_PAPERANG
 case $ANS_PYTHON_PAPERANG in
   "" | [Yy]*)
     msg "${GREEN}Sure, clone python-paperang.${NOFORMAT}"
-    git clone https://github.com/tinyprinter/python-paperang.git
+    git clone https://github.com/tinyprinter/python-paperang.git paperang
     ;;
   *)
     msg "${YELLOW}Okay, if you want to clone it manually, refer to README.md.${NOFORMAT}"
