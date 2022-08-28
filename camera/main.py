@@ -65,7 +65,7 @@ def get_ip_address():
 def main():
     logger.add("logs/{time}.log", rotation="1 day")
     logger.info("Start")
-    server_url = config.get("DEFAULT", "server_server_url")
+    server_url = config.get("DEFAULT", "server_url")
 
     display = ST7789.ST7789(SPI.SpiDev(bus, device), RST, DC, BL)
     display.Init()
