@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
-from datetime import datetime
 import os
 import socket
+from datetime import datetime
 
 import RPi.GPIO as GPIO
 import spidev as SPI
 import ST7789
 from loguru import logger
+from paperang_printer import Paperang_Printer
 from PIL import Image, ImageDraw, ImageFont
 from uploader import Uploader
 
 from camera import Camera
-from paperang_printer import Paperang_Printer
 
 # GPIO define
 
@@ -40,8 +40,10 @@ device = 0
 display_width = 240
 display_height = 240
 
+
 def get_absolute_path():
     return os.path.dirname(os.path.abspath(__file__))
+
 
 def get_postfix():
     now = datetime.now()
@@ -90,8 +92,8 @@ def main():
         """Main Routine"""
         if not GPIO.input(KEY_PRESS_PIN):
             postfix = get_postfix()
-            input_filename = f"{get_absolute_path()}/camera_{postfix}.jpg"
-            output_filename = f"{get_absolute_path()}/output_{postfix}.jpg"
+            input_filename = f"{get_absolute_path()}/images/camera_{postfix}.jpg"
+            output_filename = f"{get_absolute_path()}/images/output_{postfix}.jpg"
             if Camera().shoot(input_filename):
                 logger.info(f"Successful shooting: {input_filename}")
                 display.clear()
