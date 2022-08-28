@@ -36,7 +36,8 @@ def binimage2bitstream(bin_image: np.ndarray):
 
 
 def im2binimage(im, conversion="threshold"):
-    # convert standard numpy array image to bin_image
+    """Convert standard numpy array to binary image."""
+
     fixed_width = 384
 
     if len(im.shape) != 2:

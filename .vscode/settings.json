@@ -10,6 +10,7 @@
       "fmversion",
       "gethostname",
       "GPIO",
+      "hcitool",
       "httpie",
       "imread",
       "imwrite",

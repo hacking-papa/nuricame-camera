@@ -34,4 +34,4 @@ class Paperang_Printer:
 if __name__ == "__main__":
     mmj = Paperang_Printer()
     mmj.print_self_test()
-    # mmj.print_image_file("output.jpg")
+    mmj.print_image_file("home_240x240.png")

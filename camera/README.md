@@ -10,6 +10,7 @@ Make a contour by pictures, version with separated camera.
     - [Lipo SHIM](#lipo-shim)
     - [Camera](#camera)
     - [I2C Display](#i2c-display)
+    - [Thermal Printer](#thermal-printer)
     - [Enclosure](#enclosure)
   - [Use](#use)
     - [Check](#check)
@@ -54,6 +55,10 @@ If you want to do it manually, run `./zerolipo.sh`.
 See [1.3inch LCD HAT - Waveshare Wiki](https://www.waveshare.com/wiki/1.3inch_LCD_HAT).
 
 Run `setup.sh` to install all dependencies automatically.
+
+#### Thermal Printer
+
+First, you should find the device, `sudo hcitool scan`.
 
 #### Enclosure
 

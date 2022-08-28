@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from datetime import datetime
 import socket
 
 import RPi.GPIO as GPIO
@@ -39,6 +40,11 @@ display_width = 240
 display_height = 240
 
 
+def get_postfix():
+    now = datetime.now()
+    return now.strftime("%Y%m%d%H%M%S")
+
+
 def get_hostname():
     return socket.gethostname()
 
@@ -74,22 +80,32 @@ def main():
     home_draw = ImageDraw.Draw(home_img)
 
     home_draw.text((0, 0), get_hostname(), font=font, fill=(255, 255, 255))
-    home_draw.text((0, 30), get_ip_address(), font=font, fill=(255, 255, 255))
+    # home_draw.text((0, 30), get_ip_address(), font=font, fill=(255, 255, 255))
     display.ShowImage(home_img, 0, 0)
 
     while True:
         """Main Routine"""
         if not GPIO.input(KEY_PRESS_PIN):
-            if Camera().shoot():
-                logger.info("Successful shooting")
+            postfix = get_postfix()
+            input_filename = f"camera_{postfix}.jpg"
+            output_filename = f"output_{postfix}.jpg"
+            if Camera().shoot(input_filename):
+                logger.info(f"Successful shooting: {input_filename}")
                 display.clear()
-                input_img = Image.open("input.jpg").resize(
+                input_img = Image.open(input_filename).resize(
                     (display_width, display_height)
                 )
                 display.ShowImage(input_img, 0, 0)
-                if Uploader().upload("input.jpg"):
-                    logger.info("Successful uploading")
-                Paperang_Printer().print_image_file("output.jpg")
+                if Uploader().upload(
+                    upload_filename=input_filename, output_filename=output_filename
+                ):
+                    logger.info(
+                        f"Successful uploading: {input_filename} -> {output_filename}"
+                    )
+                Paperang_Printer().print_image_file(output_filename)
+                logger.info(f"Successful printing: {output_filename}")
+                display.clear()
+                display.ShowImage(home_img, 0, 0)
 
 
 if __name__ == "__main__":

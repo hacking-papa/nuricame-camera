@@ -1,10 +1,10 @@
 import codecs
-import logging
 import struct
 import zlib
 from platform import system
 
 from bluetooth import RFCOMM, BluetoothSocket, discover_devices, find_service
+from loguru import logger
 
 
 class BtCommandByte:
@@ -88,9 +88,8 @@ class Paperang:
             return False
         if not self.scan_services():
             return False
-        logging.info(
-            'Service found. Connecting to "%s" on %s...'
-            % (self.service["name"], self.service["host"])
+        logger.info(
+            f"Service found. Connecting to {self.service['name']} on {self.service['host']} ..."
         )
         self.sock = BluetoothSocket(RFCOMM)
         if system() == "Darwin":
@@ -100,7 +99,7 @@ class Paperang:
         else:
             self.sock.connect((self.service["host"], self.service["port"]))
         self.sock.settimeout(60)
-        logging.info("Connected.")
+        logger.info("Connected")
         self.registerCrcKeyToBt()
         return True
 
@@ -109,43 +108,36 @@ class Paperang:
             self.sock.close()
         except:
             pass
-        logging.info("Disconnected.")
+        logger.info("Disconnected")
 
     def scan_devices(self):
-        logging.warning(
-            "Searching for devices...\n"
-            "This will take some time; consider specifying a mac address to avoid a scan."
-        )
+        logger.warning("Searching for devices ... (This will take some time)")
         valid_names = ["MiaoMiaoJi", "Paperang", "Paperang_P2S"]
         nearby_devices = discover_devices(lookup_names=True)
         valid_devices = list(
             filter(lambda d: len(d) == 2 and d[1] in valid_names, nearby_devices)
         )
         if len(valid_devices) == 0:
-            logging.error("Cannot find device with name %s." % " or ".join(valid_names))
+            logger.error(f"Cannot find device with name {' or '.join(valid_names)}")
             return False
         elif len(valid_devices) > 1:
-            logging.warning(
-                "Found multiple valid machines, the first one will be used.\n"
-            )
-            logging.warning("\n".join(valid_devices))
+            logger.warning("Found multiple valid machines, the first one will be used")
+            logger.warning("\n".join(valid_devices))
         else:
             if system() == "Darwin":
-                logging.warning(
-                    "Found a valid machine with MAC %s and name %s"
-                    % (valid_devices[0][0].decode("UTF-8"), valid_devices[0][1])
+                logger.warning(
+                    f"Found a valid machine with MAC {valid_devices[0][0].decode('UTF-8')} and name {valid_devices[0][1]}"
                 )
                 self.address = valid_devices[0][0].decode("UTF-8")
             else:
-                logging.warning(
-                    "Found a valid machine with MAC %s and name %s"
-                    % (valid_devices[0][0], valid_devices[0][1])
+                logger.warning(
+                    f"Found a valid machine with MAC {valid_devices[0][0]} and name {valid_devices[0][1]}"
                 )
                 self.address = valid_devices[0][0]
         return True
 
     def scan_services(self):
-        logging.info("Searching for services...")
+        logger.info("Searching for services ...")
         if system() == "Darwin":
             return self.scan_services_osx()
 
@@ -163,13 +155,13 @@ class Paperang:
                 service_matches,
             )
         )
-        print(valid_service[0])
+        logger.debug(valid_service[0])
         if len(valid_service) == 0:
-            logging.error(
-                "Cannot find valid services on device with MAC %s." % self.address
+            logger.error(
+                f"Cannot find valid services on device with MAC {self.address}"
             )
             return False
-        logging.info("Found a valid service")
+        logger.info("Found a valid service")
         self.service = valid_service[0]
         return True
 
@@ -185,8 +177,8 @@ class Paperang:
             filter(lambda s: "name" in s and s["name"] == "SerialPort", service_matches)
         )
         if len(valid_services) == 0:
-            logging.error(
-                "Cannot find valid services on device with MAC %s." % self.address
+            logger.error(
+                f"Cannot find valid services on device with MAC {self.address}"
             )
             return False
         self.service = valid_services[0]
@@ -195,7 +187,7 @@ class Paperang:
     def sendMsgAllPackage(self, msg):
         # Write data directly to device
         sent_len = self.sock.send(msg)
-        logging.info("Sending msg with length = %d..." % sent_len)
+        logger.info(f"Sending msg with length = {sent_len} ...")
 
     def crc32(self, content):
         return (
@@ -228,9 +220,9 @@ class Paperang:
         # Here we assume that there is only one received packet.
         raw_msg = self.sock.recv(self.max_recv_msg_length)
         parsed = self.resultParser(raw_msg)
-        logging.info("Recv: " + codecs.encode(raw_msg, "hex_codec").decode())
-        logging.info(
-            "Received %d packets: " % len(parsed) + "".join([str(p) for p in parsed])
+        logger.info(f"Recv: {codecs.encode(raw_msg, 'hex_codec').decode()}")
+        logger.info(
+            f"Received {len(parsed)} packets: {''.join([str(p) for p in parsed])}"
         )
         return raw_msg, parsed
 
@@ -264,12 +256,12 @@ class Paperang:
         return res
 
     def registerCrcKeyToBt(self, key=0x6968634 ^ 0x2E696D):
-        logging.info("Setting CRC32 key...")
+        logger.info("Setting CRC32 key ...")
         msg = struct.pack("<I", int(key ^ self.standardKey))
         self.sendToBt(msg, BtCommandByte.PRT_SET_CRC_KEY)
         self.crcKey = key
         self.crckeyset = True
-        logging.info("CRC32 key set.")
+        logger.info("CRC32 key set")
 
     def sendPaperTypeToBt(self, paperType=0):
         # My guess:
