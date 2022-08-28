@@ -7,7 +7,7 @@ from PIL import Image
 
 class Uploader:
     def upload(self, upload_filename: str, output_filename: str = "output.jpg"):
-        server_url = config.get("DEFAULT", "server_server_url")
+        server_url = config.get("DEFAULT", "server_url")
         file = {"file": open(upload_filename, mode="rb")}
         response = requests.post(server_url, files=file)
         print(response)
