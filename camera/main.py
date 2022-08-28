@@ -7,9 +7,11 @@ from datetime import datetime
 import RPi.GPIO as GPIO
 import spidev as SPI
 import ST7789
+from config import config
 from loguru import logger
 from paperang_printer import Paperang_Printer
 from PIL import Image, ImageDraw, ImageFont
+from ping3 import ping
 from uploader import Uploader
 
 from camera import Camera
@@ -63,6 +65,7 @@ def get_ip_address():
 def main():
     logger.add("logs/{time}.log", rotation="1 day")
     logger.info("Start")
+    server_url = config.get("DEFAULT", "server_server_url")
 
     display = ST7789.ST7789(SPI.SpiDev(bus, device), RST, DC, BL)
     display.Init()
@@ -84,8 +87,11 @@ def main():
     home_img = Image.open("home_240x240.png")
     home_draw = ImageDraw.Draw(home_img)
 
-    home_draw.text((0, 0), get_hostname(), font=font, fill=(255, 255, 255))
-    # home_draw.text((0, 30), get_ip_address(), font=font, fill=(255, 255, 255))
+    home_draw.text((0, 0), f"Host: {get_hostname()}", font=font, fill=(255, 255, 255))
+    # home_draw.text((0, 30), f"IP: {get_ip_address()}", font=font, fill=(255, 255, 255))
+    home_draw.text(
+        (0, 60), f"Ping: {ping(server_url)}s", font=font, fill=(255, 255, 255)
+    )
     display.ShowImage(home_img, 0, 0)
 
     while True:

@@ -75,17 +75,21 @@ cd /home/pi/Workspace/nuricame-camera/camera && python main.py
 
 ```/etc/systemd/system/nuricame-camera.service
 [Unit]
-Description=nuricame camera program
+Description=Start nuricame camera program
 After=network.target
 
 [Service]
 WorkingDirectory=/home/pi/Workspace/nuricame-camera/camera
 ExecStart=/usr/bin/python3 /home/pi/Workspace/nuricame-camera/camera/main.py
+User=pi
+Type=simple
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
 ```
+
+`sudo systemctl daemon-reload && sudo systemctl enable nuricame-camera.service`
 
 #### Check
 
