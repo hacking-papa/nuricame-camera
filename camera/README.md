@@ -15,6 +15,7 @@ Make a contour by pictures, version with separated camera.
   - [Use](#use)
     - [Auto Start using Systemd](#auto-start-using-systemd)
     - [Check](#check)
+      - [Logs](#logs)
       - [SCP](#scp)
 - [Misc](#misc)
   - [License](#license)
@@ -92,6 +93,12 @@ WantedBy=multi-user.target
 `sudo systemctl daemon-reload && sudo systemctl enable nuricame-camera.service`
 
 #### Check
+
+##### Logs
+
+Log files are stored under `logs`.
+
+`journalctl -u nuricame-camera.service` to check systemd logs.
 
 ##### SCP
 
