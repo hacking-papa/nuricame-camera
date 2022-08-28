@@ -11,7 +11,7 @@ class Uploader:
         file = {"file": open(upload_filename, mode="rb")}
         response = requests.post(url, files=file)
         print(response)
-        if response.status_code is 200:
+        if response.status_code == 200:
             img = Image.open(BytesIO(response.content))
             img.save(output_filename)
             return True
