@@ -13,6 +13,7 @@ Make a contour by pictures, version with separated camera.
     - [Thermal Printer](#thermal-printer)
     - [Enclosure](#enclosure)
   - [Use](#use)
+    - [Auto Start using Systemd](#auto-start-using-systemd)
     - [Check](#check)
       - [SCP](#scp)
 - [Misc](#misc)
@@ -48,7 +49,7 @@ If you want to do it manually, run `./zerolipo.sh`.
 
 #### Camera
 
-(T. B. D.)
+If you want to rotate the image to be taken, set the angle in config.py.
 
 #### I2C Display
 
@@ -66,7 +67,25 @@ First, you should find the device, `sudo hcitool scan`.
 
 ### Use
 
-(T. B. D.)
+```shell
+cd /home/pi/Workspace/nuricame-camera/camera && python main.py
+```
+
+#### Auto Start using Systemd
+
+```/etc/systemd/system/nuricame-camera.service
+[Unit]
+Description=nuricame camera program
+After=network.target
+
+[Service]
+WorkingDirectory=/home/pi/Workspace/nuricame-camera/camera
+ExecStart=/usr/bin/python3 /home/pi/Workspace/nuricame-camera/camera/main.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
 
 #### Check
 
