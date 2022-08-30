@@ -49,7 +49,11 @@ fc-cache -fv
 
 ## `raspi-config`
 
-Enable SPI and legacy camera.
+Enable legacy camera to use Camera.
+
+Enable SPI to use 1.3" LCD.
+
+Disable Screen blanking to stop sleep mode.
 
 ## `setup.sh`
 
