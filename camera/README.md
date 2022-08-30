@@ -30,6 +30,8 @@ Make a contour by pictures, version with separated camera.
 
 ### Setup
 
+See also [setup.md](setup.md).
+
 #### Raspbian
 
 It is useful to enable SSH when creating SD card images.

@@ -98,7 +98,7 @@ case $ANS_PAPERANG in
   "" | [Yy]*)
     msg "${GREEN}Sure, Start dependencies related to Camera installation.${NOFORMAT}"
     sudo apt-get update
-    sudo apt-get install -y python3-pycamera
+    sudo apt-get install -y python3-picamera
     ;;
   *)
     msg "${YELLOW}Okay, if you want to install it manually, refer to README.md.${NOFORMAT}"
