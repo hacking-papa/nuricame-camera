@@ -66,7 +66,9 @@ def main():
     is_debug = config.getboolean("DEFAULT", "debug")
     logger.add("logs/{time}.log", rotation="1 day")
     logger.info("Start")
+
     server_url = config.get("DEFAULT", "server_url")
+    printer_mac_address = config.get("DEFAULT", "printer_mac_address")
 
     display = ST7789.ST7789(SPI.SpiDev(bus, device), RST, DC, BL)
     display.Init()
@@ -95,7 +97,13 @@ def main():
             (0, 30), f"IP: {get_ip_address()}", font=font, fill=(255, 255, 255)
         )
         home_draw.text(
-            (0, 60), f"Ping: {ping(server_url)}s", font=font, fill=(255, 255, 255)
+            (0, 60),
+            f"Ping: {round(ping(server_url), 2)} s",
+            font=font,
+            fill=(255, 255, 255),
+        )
+        home_draw.text(
+            (0, 90), f"Printer: {printer_mac_address}", font=font, fill=(255, 255, 255)
         )
     display.ShowImage(home_img, 0, 0)
 
