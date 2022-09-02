@@ -85,7 +85,7 @@ def main():
     # GPIO.setup(KEY2_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     # GPIO.setup(KEY3_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-    font = ImageFont.truetype("fonts/mononoki.ttf", 24)
+    font = ImageFont.truetype("fonts/mononoki.ttf", 18)
     # Prepare Home Image
     home_img = Image.open("home_240x240.png")
     home_draw = ImageDraw.Draw(home_img)
@@ -94,7 +94,10 @@ def main():
             (0, 0), f"Host: {get_hostname()}", font=font, fill=(255, 255, 255)
         )
         home_draw.text(
-            (0, 30), f"IP: {get_ip_address()}", font=font, fill=(255, 255, 255)
+            (0, 20), f"IP: {get_ip_address()}", font=font, fill=(255, 255, 255)
+        )
+        home_draw.text(
+            (0, 40), f"Server: {server_url}", font=font, fill=(255, 255, 255)
         )
         home_draw.text(
             (0, 60),
@@ -103,7 +106,10 @@ def main():
             fill=(255, 255, 255),
         )
         home_draw.text(
-            (0, 90), f"Printer: {printer_mac_address}", font=font, fill=(255, 255, 255)
+            (0, 80),
+            f"Printer: {printer_mac_address[8:]}",
+            font=font,
+            fill=(255, 255, 255),
         )
     display.ShowImage(home_img, 0, 0)
 
@@ -139,14 +145,26 @@ def main():
                         fill=(255, 255, 255),
                     )
                     home_draw.text(
-                        (0, 30),
+                        (0, 20),
                         f"IP: {get_ip_address()}",
                         font=font,
                         fill=(255, 255, 255),
                     )
                     home_draw.text(
+                        (0, 40),
+                        f"Server: {server_url}",
+                        font=font,
+                        fill=(255, 255, 255),
+                    )
+                    home_draw.text(
                         (0, 60),
-                        f"Ping: {ping(server_url)}s",
+                        f"Ping: {round(ping(server_url), 2)} s",
+                        font=font,
+                        fill=(255, 255, 255),
+                    )
+                    home_draw.text(
+                        (0, 80),
+                        f"Printer: {printer_mac_address[8:]}",
                         font=font,
                         fill=(255, 255, 255),
                     )
